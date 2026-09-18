@@ -61,3 +61,4 @@ The preview now has a complete browser-local account flow:
 ## Status notifications
 
 The interface now shows clear success/error-style status popups for actions such as sign in, sign up, saving, staking, and sending transfers.
+\n\n## Administrator login\n- Email: `admin@bmxstaking.com`\n- Password: `BMXAdmin@2026`\n- Admin starting balance: `1,000,000,000 BMX`\n- Regular account starting balance: `0 BMX`\n\nThis is browser-local preview authentication. GitHub Pages publishes static HTML/CSS/JavaScript, so a password embedded in client-side code is not a secure production secret. Use a backend with secure password hashing, sessions/tokens, authorization and rate limiting before handling real accounts or funds.\n

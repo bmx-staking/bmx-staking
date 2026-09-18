@@ -22,6 +22,10 @@ const BMX_ADMIN_WALLET = "0x7f3a...9c2e";
 const BMX_DAILY_RATE = 0.005;
 const BMX_REWARD_TZ = "Asia/Kolkata";
 const BMX_STATE_KEY = "bmxProfessionalStateV3";
+const BMX_ADMIN_EMAIL = "admin@bmxstaking.com";
+const BMX_ADMIN_PASSWORD = "BMXAdmin@2026";
+const BMX_ADMIN_STARTING_BALANCE = 1000000000;
+const BMX_USER_STARTING_BALANCE = 0;
 
 function bmxTodayISTKey(date=new Date()) {
   return new Intl.DateTimeFormat("en-CA", {timeZone:BMX_REWARD_TZ, year:"numeric", month:"2-digit", day:"2-digit"}).format(date);
@@ -34,7 +38,7 @@ function bmxNextMidnightIST() {
   return t;
 }
 
-const DEFAULT_STATE = {balance:1000000000, staked:0, referrals:0, rewards:0, wallet:BMX_ADMIN_WALLET, price:0.001, tx:[], lastRewardDay:""};
+const DEFAULT_STATE = {balance:0, staked:0, referrals:0, rewards:0, wallet:BMX_ADMIN_WALLET, price:0.001, tx:[], lastRewardDay:""};
 let state;
 try { state = {...DEFAULT_STATE, ...JSON.parse(localStorage.getItem(BMX_STATE_KEY) || "{}")}; } catch { state={...DEFAULT_STATE}; }
 
@@ -50,7 +54,33 @@ function bmxApplyDailyReward(){
   state.tx.unshift({type:"Staking Reward",amount:reward,status:"Completed",time:new Date().toLocaleString()});
   state.lastRewardDay=today; save();
 }
+function bmxLocalAdminUser() {
+  try {
+    const session = JSON.parse(localStorage.getItem("bmx_session") || "null");
+    const users = JSON.parse(localStorage.getItem("bmx_users") || "[]");
+    return session && users.find(u => u.id === session.id && u.role === "admin") || null;
+  } catch (_) { return null; }
+}
+function bmxEnsureRoleState() {
+  if (bmxLocalAdminUser()) {
+    if (Number(state.balance) < BMX_ADMIN_STARTING_BALANCE) {
+      state.balance = BMX_ADMIN_STARTING_BALANCE;
+      state.wallet = BMX_ADMIN_WALLET;
+      save();
+    }
+    return;
+  }
+  if (Number(state.balance) === BMX_ADMIN_STARTING_BALANCE) {
+    state.balance = BMX_USER_STARTING_BALANCE;
+    state.staked = 0;
+    state.rewards = 0;
+    state.tx = [];
+    save();
+  }
+}
+
 function refresh(){
+  bmxEnsureRoleState();
   bmxApplyDailyReward();
   setText("[data-balance]",fmt(state.balance)+" BMX"); setText("[data-staked]",fmt(state.staked)+" BMX");
   setText("[data-rewards]",fmt(state.rewards)+" BMX"); setText("[data-referrals]",String(state.referrals));
@@ -201,6 +231,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     if (!name || !email || password.length < 4) return { ok:false, message:"Please enter a name, valid email, and password of at least 4 characters." };
 
     const list = users();
+    if (email === BMX_ADMIN_EMAIL.toLowerCase()) return { ok:false, message:"That email is reserved for the administrator." };
     if (list.some(u => u.email === email)) return { ok:false, message:"An account with this email already exists. Please sign in." };
 
     const user = {
@@ -231,6 +262,47 @@ document.addEventListener("DOMContentLoaded",()=>{
     return { ok:true, user };
   }
 
+  function ensureAdminAccount() {
+    const list = users();
+    const email = BMX_ADMIN_EMAIL.toLowerCase();
+    let admin = list.find(u => u.email === email);
+    if (!admin) {
+      admin = {
+        id: "admin_" + Date.now(),
+        name: "BMX Administrator",
+        email: BMX_ADMIN_EMAIL,
+        password: BMX_ADMIN_PASSWORD,
+        role: "admin",
+        referralCode: "BMX-ADMIN",
+        referrals: [],
+        createdAt: new Date().toISOString()
+      };
+      list.push(admin);
+      save(USERS_KEY, list);
+    } else {
+      admin.role = "admin";
+      admin.password = BMX_ADMIN_PASSWORD;
+      save(USERS_KEY, list);
+    }
+    return admin;
+  }
+
+  function isAdmin() {
+    const u = currentUser();
+    return !!(u && u.role === "admin");
+  }
+
+  function adminLogin(email, password) {
+    ensureAdminAccount();
+    email = String(email || "").trim().toLowerCase();
+    if (email !== BMX_ADMIN_EMAIL.toLowerCase() || String(password || "") !== BMX_ADMIN_PASSWORD) {
+      return { ok:false, message:"Admin email or password is incorrect." };
+    }
+    const admin = users().find(u => u.email === BMX_ADMIN_EMAIL.toLowerCase() && u.role === "admin");
+    setSession(admin);
+    return { ok:true, user:admin };
+  }
+
   function login(email, password) {
     email = String(email || "").trim().toLowerCase();
     const user = users().find(u => u.email === email && u.password === String(password || ""));
@@ -247,6 +319,10 @@ document.addEventListener("DOMContentLoaded",()=>{
   function protectPages() {
     const page = (location.pathname.split("/").pop() || "index.html").toLowerCase();
     const publicPages = ["", "index.html", "login.html", "register.html", "faq.html", "support.html"];
+    if (page === "admin.html" && !isAdmin()) {
+      window.location.href = "admin-login.html";
+      return;
+    }
     if (!publicPages.includes(page) && !currentUser()) {
       window.location.href = "index.html";
       return;
@@ -271,7 +347,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 
   window.BMXAuth = {
     createUser, login, logout, currentUser, users, getSession,
-    referralUrl, protectPages, personalize
+    referralUrl, protectPages, personalize, ensureAdminAccount, isAdmin, adminLogin
   };
 
   // Route protection runs before page content becomes interactive.
