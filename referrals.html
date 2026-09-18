@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Referrals · BMX Staking</title><meta name="description" content="BMX Staking professional preview interface">
+<link rel="stylesheet" href="styles.css"></head>
+<body data-page="referrals">
+<div class="app">
+<aside class="sidebar">
+  <a class="brand" href="dashboard.html"><span class="logo">B</span><span><div class="brand-title">BMX <b>Staking</b></div><div class="brand-sub">CONNECT · STAKE · GROW</div></span></a>
+  <nav class="nav">
+    <a href="dashboard.html" data-page="dashboard"><span class="ico">⌂</span>Dashboard</a>
+    <a href="staking.html" data-page="staking"><span class="ico">◎</span>Staking</a>
+    <a href="referrals.html" data-page="referrals"><span class="ico">♧</span>Referrals</a>
+    <a href="transfer.html" data-page="transfer"><span class="ico">➤</span>Transfer</a>
+    <a href="profile.html" data-page="profile"><span class="ico">◯</span>Profile</a>
+    <a href="support.html" data-page="support"><span class="ico">?</span>Support</a>
+    <a href="faq.html" data-page="faq"><span class="ico">≡</span>FAQ</a>
+  </nav>
+  <div class="sidebar-note"><strong>● Preview environment</strong><p>Interface and balances are simulation locally in your browser.</p></div>
+</aside>
+<main class="main">
+<header class="topbar">
+  <div class="topbar-left"><button class="menu" id="menuBtn">☰</button><span class="mobile-brand">BMX <b>Staking</b></span>
+  <nav class="topbar-links"><a href="staking.html">STAKE</a><a href="referrals.html">REFER</a><a href="dashboard.html">EARN</a><a href="profile.html">ACCOUNT</a></nav></div>
+  <div class="topbar-right"><span class="preview-badge">● PREVIEW</span><button class="wallet-btn" data-connect><span class="wallet-dot"></span><span data-wallet>0x7f3a...9c2e</span>⌄</button><div class="avatar">B</div></div>
+</header>
+<section class="content">
+<div class="page-head"><div><h1>Referrals</h1><p>Build your network and track simulation referral activity.</p></div><span class="preview-badge">● PREVIEW REWARDS</span></div>
+<div class="grid kpis">
+ <div class="card kpi"><div class="kpi-top"><span class="label">NETWORK</span><span class="kpi-icon">♧</span></div><strong data-referrals>0</strong><small>Members</small></div>
+ <div class="card kpi"><div class="kpi-top"><span class="label">LEVEL 1</span><span class="kpi-icon">1</span></div><strong>10%</strong><small>Direct rate</small></div>
+ <div class="card kpi"><div class="kpi-top"><span class="label">LEVEL 2</span><span class="kpi-icon">2</span></div><strong>5%</strong><small>Second level</small></div>
+ <div class="card kpi"><div class="kpi-top"><span class="label">LEVEL 3</span><span class="kpi-icon">3</span></div><strong>2%</strong><small>Third level</small></div>
+</div>
+<div class="card pad" style="margin-top:16px"><div class="section-head"><h2>Your Referral Link</h2><span class="muted">Share to invite users</span></div>
+<div class="ref-link"><input data-ref-input readonly><button class="copy" data-copy>Copy</button></div></div>
+<div class="grid two-col">
+ <div class="card pad"><div class="section-head"><h2>Referral Structure</h2></div>
+  <div class="level"><span class="level-badge">L1</span><div><b>10%</b><small>Direct referrals</small></div></div>
+  <div class="level"><span class="level-badge">L2</span><div><b>5%</b><small>Second-level referrals</small></div></div>
+  <div class="level"><span class="level-badge">L3</span><div><b>2%</b><small>Third-level referrals</small></div></div>
+ </div>
+ <div class="card pad"><div class="section-head"><h2>Network Activity</h2></div><div class="notice">No real referral payments are made. This prototype only previewnstrates the dashboard experience and local UI state.</div></div>
+</div>
+</section>
+<footer class="footer"><span>BMX Staking · Professional preview UI</span><span>Simulation balances, rewards and transfers only · No monetary value</span></footer>
+</main></div>
+<div class="toast"></div>
+<div class="modal" id="walletModal"><div class="modal-card"><h2>Connect wallet</h2><p class="muted">Wallet connection in this build is simulation. No blockchain transaction is signed.</p>
+<button class="wallet-option" data-wallet-option="0x7f3a...9c2e">◈ Preview Wallet · 0x7f3a...9c2e</button>
+<button class="wallet-option" data-wallet-option="0x92b1...4af0">◈ Preview Wallet · 0x92b1...4af0</button>
+<button class="wallet-option" data-wallet-option="0x31d8...c821">◈ Preview Wallet · 0x31d8...c821</button>
+<button class="btn" data-close-modal style="width:100%;margin-top:10px">Close</button></div></div>
+<script src="app.js"></script></body></html>
