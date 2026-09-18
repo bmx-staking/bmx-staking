@@ -50,4 +50,75 @@
 <button class="wallet-option" data-wallet-option="0x92b1...4af0">◈ Preview Wallet · 0x92b1...4af0</button>
 <button class="wallet-option" data-wallet-option="0x31d8...c821">◈ Preview Wallet · 0x31d8...c821</button>
 <button class="btn" data-close-modal style="width:100%;margin-top:10px">Close</button></div></div>
-<script src="app.js"></script></body></html>
+<script src="app.js"></script>
+<section class="card referral-live-panel">
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">PERSONAL REFERRAL</div>
+      <h2>Your referral link</h2>
+      <p class="muted">Share your unique link. New registrations through it are recorded in this browser-based platform preview.</p>
+    </div>
+    <span class="status-pill">SIMULATION</span>
+  </div>
+  <div class="referral-link-row">
+    <input id="myReferralLink" readonly aria-label="Your referral link">
+    <button class="btn primary" id="copyReferralLink" type="button">Copy link</button>
+  </div>
+  <div class="referral-code">Code: <strong id="myReferralCode">—</strong></div>
+</section>
+
+<section class="card">
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">NETWORK</div>
+      <h2>Your referrals</h2>
+    </div>
+    <strong id="referralCount">0</strong>
+  </div>
+  <div id="referralList" class="referral-list"></div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const fallbackName = localStorage.getItem("bmx_user_name") || "BMX User";
+  const fallbackEmail = localStorage.getItem("bmx_user_email") || "";
+  const user = window.BMXReferral && BMXReferral.ensureUser(fallbackName, fallbackEmail);
+  if (!user) return;
+  const link = BMXReferral.referralUrl(user.referralCode);
+  document.getElementById("myReferralLink").value = link;
+  document.getElementById("myReferralCode").textContent = user.referralCode;
+  const list = document.getElementById("referralList");
+  const referrals = user.referrals || [];
+  document.getElementById("referralCount").textContent = referrals.length;
+  list.innerHTML = referrals.length ? referrals.map(r =>
+    '<div class="referral-item"><div><strong>' + (r.name || "BMX User") +
+    '</strong><div class="muted">' + new Date(r.joinedAt).toLocaleString() +
+    '</div></div><span class="status-pill">Joined</span></div>'
+  ).join("") : '<div class="empty-state">No referrals yet. Share your link to start building your network.</div>';
+
+  document.getElementById("copyReferralLink").addEventListener("click", async function () {
+    try {
+      await navigator.clipboard.writeText(link);
+      this.textContent = "Copied";
+      setTimeout(() => this.textContent = "Copy link", 1600);
+    } catch (_) {
+      document.getElementById("myReferralLink").select();
+      document.execCommand("copy");
+      this.textContent = "Copied";
+      setTimeout(() => this.textContent = "Copy link", 1600);
+    }
+  });
+});
+</script>
+
+<style>
+.referral-live-panel{margin-bottom:20px}.section-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}
+.eyebrow{font-size:11px;letter-spacing:.16em;opacity:.7}.muted{opacity:.7;font-size:13px}
+.status-pill{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;border:1px solid rgba(90,190,255,.25);font-size:11px}
+.referral-link-row{display:flex;gap:10px;margin-top:18px}.referral-link-row input{flex:1;min-width:0}
+.referral-code{margin-top:10px;font-size:13px;opacity:.8}.referral-list{display:grid;gap:10px;margin-top:15px}
+.referral-item{display:flex;justify-content:space-between;align-items:center;padding:13px;border:1px solid rgba(255,255,255,.08);border-radius:12px}
+.empty-state{padding:22px;text-align:center;opacity:.65;border:1px dashed rgba(255,255,255,.12);border-radius:12px}
+@media(max-width:600px){.referral-link-row{flex-direction:column}.referral-link-row .btn{width:100%}}
+</style>
+</body></html>

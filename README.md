@@ -27,3 +27,9 @@ Upload the files to your repository and enable GitHub Pages. No build step is re
 ## Current platform status
 
 This release is styled as a production-quality platform preview. The interface is presentation-ready, but blockchain functionality has not been connected yet. BMX balances, staking rewards, transfers, referrals, and activity shown by the frontend are simulated and have no monetary value. No real deposits, withdrawals, private keys, or blockchain transactions are performed.
+
+## Referral tracking
+
+Each registered browser user receives a unique referral code and shareable registration URL. When a new registration uses that URL, the referrer relationship is recorded and displayed on the Referrals page.
+
+This is **browser-local simulation tracking**. It does not provide a shared server/database, real account system, real referral payouts, or blockchain rewards. For production use, referral relationships should be stored in a secure backend/database with proper authentication and anti-abuse controls.

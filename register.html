@@ -39,4 +39,24 @@
 <button class="wallet-option" data-wallet-option="0x92b1...4af0">◈ Preview Wallet · 0x92b1...4af0</button>
 <button class="wallet-option" data-wallet-option="0x31d8...c821">◈ Preview Wallet · 0x31d8...c821</button>
 <button class="btn" data-close-modal style="width:100%;margin-top:10px">Close</button></div></div>
-<script src="app.js"></script></body></html>
+<script src="app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("form");
+  if (!form) return;
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const nameEl = form.querySelector('input[name="name"], input[name="username"], input[type="text"]');
+    const emailEl = form.querySelector('input[name="email"], input[type="email"]');
+    const name = nameEl ? nameEl.value.trim() : "BMX User";
+    const email = emailEl ? emailEl.value.trim() : "";
+    const user = window.BMXReferral.ensureUser(name, email);
+    window.BMXReferral.registerReferral(user);
+    localStorage.setItem("bmx_user_name", name);
+    localStorage.setItem("bmx_user_email", email);
+    localStorage.setItem("bmx_current_user", JSON.stringify(user));
+    window.location.href = "dashboard.html";
+  });
+});
+</script>
+</body></html>

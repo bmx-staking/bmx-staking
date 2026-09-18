@@ -98,3 +98,86 @@ document.addEventListener("DOMContentLoaded",()=>{
   const referral=document.querySelector("[data-ref-input]");
   if(referral) referral.value=location.origin+location.pathname.replace(/[^/]+$/,"")+"register.html?ref=BMX-"+state.wallet.slice(-4);
 });
+
+
+/* BMX Staking referral system — browser-local simulation */
+(function () {
+  const USER_KEY = "bmx_current_user";
+  const USERS_KEY = "bmx_users";
+  const REF_KEY = "bmx_referrals";
+
+  function load(key, fallback) {
+    try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
+    catch (_) { return fallback; }
+  }
+  function save(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+  function makeCode(name) {
+    const base = String(name || "BMX").replace(/[^a-z0-9]/gi, "").toUpperCase().slice(0, 6) || "BMX";
+    return base + "-" + Math.random().toString(36).slice(2, 7).toUpperCase();
+  }
+  function ensureUser(name, email) {
+    const users = load(USERS_KEY, []);
+    let user = users.find(u => u.email && email && u.email.toLowerCase() === email.toLowerCase());
+    if (!user) {
+      user = { id: "u_" + Date.now() + "_" + Math.random().toString(36).slice(2, 7),
+        name: name || "BMX User", email: email || "", referralCode: makeCode(name),
+        referrals: [], createdAt: new Date().toISOString() };
+      users.push(user);
+      save(USERS_KEY, users);
+    } else if (!user.referralCode) {
+      user.referralCode = makeCode(user.name);
+      save(USERS_KEY, users);
+    }
+    save(USER_KEY, user);
+    return user;
+  }
+  function currentUser() {
+    return load(USER_KEY, null);
+  }
+  function referralUrl(code) {
+    return location.origin + location.pathname.replace(/[^/]*$/, "") + "register.html?ref=" + encodeURIComponent(code);
+  }
+  function registerReferral(newUser) {
+    const params = new URLSearchParams(location.search);
+    const ref = params.get("ref");
+    if (!ref || !newUser || ref === newUser.referralCode) return false;
+    const users = load(USERS_KEY, []);
+    const referrer = users.find(u => u.referralCode === ref);
+    if (!referrer) return false;
+    if (referrer.referrals.some(r => r.userId === newUser.id)) return false;
+    referrer.referrals.push({ userId: newUser.id, name: newUser.name, joinedAt: new Date().toISOString() });
+    save(USERS_KEY, users);
+    const records = load(REF_KEY, []);
+    records.push({ referrerId: referrer.id, referredId: newUser.id, code: ref, joinedAt: new Date().toISOString() });
+    save(REF_KEY, records);
+    return true;
+  }
+  function expose() {
+    window.BMXReferral = {
+      ensureUser, currentUser, referralUrl, registerReferral,
+      getUsers: () => load(USERS_KEY, []),
+      getReferralRecords: () => load(REF_KEY, [])
+    };
+  }
+  expose();
+
+  // On a registration form, remember the referral code and attach it to the form.
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form[data-register-form], #registerForm");
+    const ref = new URLSearchParams(location.search).get("ref");
+    if (form && ref) {
+      let input = form.querySelector('input[name="referral"]');
+      if (!input) {
+        input = document.createElement("input");
+        input.type = "hidden"; input.name = "referral"; form.appendChild(input);
+      }
+      input.value = ref;
+      const note = document.createElement("div");
+      note.className = "referral-note";
+      note.textContent = "Referral code applied: " + ref;
+      form.prepend(note);
+    }
+  });
+})();
