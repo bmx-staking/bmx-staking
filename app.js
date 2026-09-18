@@ -1,0 +1,7 @@
+let balance=1000000000,staked=0,l1=0,l2=0,l3=0;
+const fmt=n=>Math.floor(n).toLocaleString()+" BMX";
+function refresh(){bal.textContent=fmt(balance);avail.textContent=fmt(balance);document.getElementById("staked").textContent=fmt(staked);document.getElementById("l1").textContent=l1;document.getElementById("l2").textContent=l2;document.getElementById("l3").textContent=l3;document.getElementById("total").textContent=l1+l2+l3}
+function stake(){let a=+stakeAmt.value;if(!a||a<1)return stakeMsg.textContent="Enter an amount.";if(a>balance)return stakeMsg.textContent="Insufficient trial balance.";balance-=a;staked+=a;stakeMsg.textContent="Trial staking started at 0.5% daily simulated reward.";refresh()}
+function transfer(){let r=recipient.value.trim(),a=+amount.value;if(!r||!a||a<1)return transferMsg.textContent="Enter a referral ID and amount.";if(a>balance)return transferMsg.textContent="Insufficient trial balance.";balance-=a;transferMsg.textContent="Simulated transfer of "+fmt(a)+" sent to "+r+". No blockchain transaction was made.";refresh()}
+function addRef(){l1++;recipient.value="REF"+String(l1).padStart(4,"0");transferMsg.textContent="Trial referral added. You can transfer BMX to this ID.";refresh()}
+refresh();

@@ -1,0 +1,1 @@
+BMX Staking front-end trial. 1B BMX is simulated in the browser only. No blockchain, deposits, withdrawals or monetary value.
