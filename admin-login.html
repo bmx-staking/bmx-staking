@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Login · BMX Staking</title>
+<meta name="description" content="BMX Staking administrator login">
+<link rel="stylesheet" href="styles.css"></head>
+<body data-page="admin-login">
+<div class="app">
+<aside class="sidebar">
+  <a class="brand" href="index.html"><span class="logo">B</span><span><div class="brand-title">BMX <b>Staking</b></div><div class="brand-sub">ADMIN ACCESS</div></span></a>
+  <div class="sidebar-note"><strong>● Administrator access</strong><p>Local preview authentication. Do not use this password for a production system.</p></div>
+</aside>
+<main class="main">
+<header class="topbar">
+  <div class="topbar-left"><span class="mobile-brand">BMX <b>Staking</b></span></div>
+  <div class="topbar-right"><span class="preview-badge">● ADMIN</span></div>
+</header>
+<section class="content">
+<div style="max-width:480px;margin:55px auto">
+ <div class="card form-card" style="max-width:none">
+  <div class="eyebrow">Administrator</div><h1 style="margin:8px 0 5px">Admin Login</h1>
+  <p class="muted">Access the BMX Staking administrator console.</p>
+  <form id="adminLoginForm" style="margin-top:22px">
+   <div class="field"><label>ADMIN EMAIL</label><input id="adminEmail" type="email" placeholder="admin@bmxstaking.com" autocomplete="username" required></div>
+   <div class="field"><label>ADMIN PASSWORD</label><input id="adminPassword" type="password" placeholder="Enter admin password" autocomplete="current-password" required></div>
+   <button class="btn btn-primary" style="width:100%">Admin Sign In</button>
+   <div class="auth-message" aria-live="polite"></div>
+  </form>
+  <div class="notice" style="margin-top:14px"><strong>Preview credentials</strong><br>Email: <code>admin@bmxstaking.com</code><br>Password: <code>BMXAdmin@2026</code></div>
+  <p class="muted" style="font-size:12px;margin-top:18px">This GitHub Pages build stores authentication in the browser. The credentials and JavaScript are publicly inspectable, so use these only for preview testing.</p>
+  <p style="margin-top:18px"><a href="login.html" style="color:#42c7ff">← Back to user sign in</a></p>
+ </div>
+</div>
+</section>
+<footer class="footer"><span>BMX Staking · Administrator</span><span>Local preview authentication · No server-side security</span></footer>
+</main></div>
+<script src="app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  const form = document.getElementById("adminLoginForm");
+  const msg = form.querySelector(".auth-message");
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    const result = BMXAuth.adminLogin(document.getElementById("adminEmail").value, document.getElementById("adminPassword").value);
+    if(result.ok){
+      msg.textContent = "Admin signed in successfully.";
+      msg.className = "auth-message success";
+      BMXSuccess("Admin signed in successfully ✓");
+      setTimeout(() => location.href = "admin.html", 350);
+    } else {
+      msg.textContent = result.message;
+      msg.className = "auth-message error";
+      BMXError(result.message);
+    }
+  });
+});
+</script>
+<style>.auth-message{margin-top:12px;font-size:13px}.auth-message.success{color:#79e2a7}.auth-message.error{color:#ff8f9d}code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}</style>
+</body></html>
