@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Support · BMX Staking</title><meta name="description" content="BMX Staking professional demo interface">
+<link rel="stylesheet" href="styles.css"></head>
+<body data-page="support">
+<div class="app">
+<aside class="sidebar">
+  <a class="brand" href="dashboard.html"><span class="logo">B</span><span><div class="brand-title">BMX <b>Staking</b></div><div class="brand-sub">CONNECT · STAKE · GROW</div></span></a>
+  <nav class="nav">
+    <a href="dashboard.html" data-page="dashboard"><span class="ico">⌂</span>Dashboard</a>
+    <a href="staking.html" data-page="staking"><span class="ico">◎</span>Staking</a>
+    <a href="referrals.html" data-page="referrals"><span class="ico">♧</span>Referrals</a>
+    <a href="transfer.html" data-page="transfer"><span class="ico">➤</span>Transfer</a>
+    <a href="profile.html" data-page="profile"><span class="ico">◯</span>Profile</a>
+    <a href="support.html" data-page="support"><span class="ico">?</span>Support</a>
+    <a href="faq.html" data-page="faq"><span class="ico">≡</span>FAQ</a>
+  </nav>
+  <div class="sidebar-note"><strong>● Demo environment</strong><p>Interface and balances are simulated locally in your browser.</p></div>
+</aside>
+<main class="main">
+<header class="topbar">
+  <div class="topbar-left"><button class="menu" id="menuBtn">☰</button><span class="mobile-brand">BMX <b>Staking</b></span>
+  <nav class="topbar-links"><a href="staking.html">STAKE</a><a href="referrals.html">REFER</a><a href="dashboard.html">EARN</a><a href="profile.html">ACCOUNT</a></nav></div>
+  <div class="topbar-right"><span class="demo-badge">● DEMO</span><button class="wallet-btn" data-connect><span class="wallet-dot"></span><span data-wallet>0x7f3a...9c2e</span>⌄</button><div class="avatar">B</div></div>
+</header>
+<section class="content">
+<div class="page-head"><div><h1>Support</h1><p>Common support actions for the BMX Staking demo.</p></div></div>
+<div class="grid two-col">
+ <div class="card form-card"><div class="section-head"><h2>Contact form</h2></div>
+  <form onsubmit="event.preventDefault(); toast('Demo message saved locally');">
+   <div class="field"><label>NAME</label><input placeholder="Your name"></div>
+   <div class="field"><label>EMAIL</label><input type="email" placeholder="you@example.com"></div>
+   <div class="field"><label>MESSAGE</label><textarea rows="5" placeholder="How can we help?"></textarea></div>
+   <button class="btn btn-primary" style="width:100%">Send Message</button>
+  </form>
+ </div>
+ <div class="card pad"><div class="section-head"><h2>Before contacting support</h2></div>
+  <div class="notice">Never share your seed phrase or private key. The current prototype does not need either. Check the FAQ for information about demo balances and simulated staking.</div>
+ </div>
+</div>
+</section>
+<footer class="footer"><span>BMX Staking · Professional demo UI</span><span>Simulated balances, rewards and transfers only · No monetary value</span></footer>
+</main></div>
+<div class="toast"></div>
+<div class="modal" id="walletModal"><div class="modal-card"><h2>Connect wallet</h2><p class="muted">Wallet connection in this build is simulated. No blockchain transaction is signed.</p>
+<button class="wallet-option" data-wallet-option="0x7f3a...9c2e">◈ Demo Wallet · 0x7f3a...9c2e</button>
+<button class="wallet-option" data-wallet-option="0x92b1...4af0">◈ Demo Wallet · 0x92b1...4af0</button>
+<button class="wallet-option" data-wallet-option="0x31d8...c821">◈ Demo Wallet · 0x31d8...c821</button>
+<button class="btn" data-close-modal style="width:100%;margin-top:10px">Close</button></div></div>
+<script src="app.js"></script></body></html>
