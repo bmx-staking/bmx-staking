@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="BMX Staking — connect, stake and grow in one professional dashboard.">
+<title>BMX Staking · Welcome</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.landing{min-height:100vh;overflow:hidden;position:relative}
+.landing:before{content:"";position:absolute;width:620px;height:620px;border-radius:50%;right:-180px;top:-220px;border:1px solid rgba(25,185,255,.12);box-shadow:0 0 140px rgba(25,185,255,.08)}
+.landing:after{content:"";position:absolute;width:420px;height:420px;border-radius:50%;left:-250px;bottom:-250px;background:rgba(124,92,255,.07);filter:blur(30px)}
+.landing-nav{position:relative;z-index:2;max-width:1180px;margin:auto;padding:22px 24px;display:flex;align-items:center;justify-content:space-between}
+.landing-nav .brand{padding:0}.landing-links{display:flex;align-items:center;gap:10px}.landing-links a{padding:10px 15px;border-radius:10px;color:#a9bdd6;font-size:13px;font-weight:700}.landing-links a:hover{color:#fff;background:#0b2948}
+.landing-main{position:relative;z-index:1;max-width:1180px;margin:auto;padding:55px 24px 30px;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,.65fr);gap:55px;align-items:center}
+.intro-copy .eyebrow{margin-bottom:12px}.intro-copy h1{font-size:clamp(42px,6vw,72px);line-height:1.02;letter-spacing:-3px;margin:0;max-width:760px}.intro-copy h1 b{color:var(--cyan)}.intro-copy .lead{font-size:18px;line-height:1.6;color:#9fb6d2;max-width:650px;margin:20px 0 0}.landing-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}.landing-actions .btn{padding:13px 22px}.intro-points{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:34px;max-width:700px}.intro-point{padding:15px;border:1px solid #173b60;border-radius:14px;background:rgba(8,27,48,.62)}.intro-point strong{display:block;font-size:14px}.intro-point span{display:block;color:#7892b2;font-size:11px;line-height:1.45;margin-top:4px}
+.welcome-card{position:relative;padding:28px;border:1px solid #1b527e;border-radius:22px;background:linear-gradient(145deg,rgba(12,39,68,.94),rgba(6,20,37,.97));box-shadow:0 25px 80px rgba(0,0,0,.35)}.welcome-card:before{content:"";position:absolute;inset:1px;border-radius:21px;background:radial-gradient(circle at 75% 15%,rgba(25,185,255,.15),transparent 42%);pointer-events:none}.welcome-logo{position:relative;width:82px;height:82px;border-radius:24px;display:grid;place-items:center;font-size:40px;font-weight:900;background:linear-gradient(145deg,#20c7ff,#2461ed);box-shadow:0 18px 45px rgba(25,185,255,.22);margin-bottom:22px}.welcome-card h2{position:relative;margin:0;font-size:25px}.welcome-card p{position:relative;color:#8fa8c5;font-size:13px;line-height:1.55}.auth-buttons{position:relative;display:grid;gap:10px;margin-top:22px}.auth-buttons a{display:flex;align-items:center;justify-content:center;padding:13px;border-radius:11px;font-weight:800}.auth-primary{background:linear-gradient(100deg,#12aef0,#4c65f2)}.auth-secondary{border:1px solid #275b8e;background:#0b2848}.welcome-note{position:relative;margin-top:17px;padding-top:15px;border-top:1px solid #173552;color:#7088a6;font-size:10px;line-height:1.5}
+.landing-bottom{position:relative;z-index:1;max-width:1180px;margin:10px auto 0;padding:0 24px 24px}.landing-disclosure{padding:14px 16px;border:1px solid #183d60;border-radius:13px;background:rgba(7,22,40,.7);color:#748ca8;font-size:11px;line-height:1.5}.landing-disclosure strong{color:#a9c5df}
+@media(max-width:820px){.landing-nav{padding:16px}.landing-links a:first-child{display:none}.landing-main{grid-template-columns:1fr;padding:38px 16px 20px;gap:30px}.intro-copy h1{letter-spacing:-2px}.intro-copy .lead{font-size:15px}.intro-points{grid-template-columns:1fr}.welcome-card{max-width:520px}.landing-bottom{padding:0 16px 18px}}
+</style>
+</head>
+<body>
+<div class="landing">
+  <nav class="landing-nav">
+    <a class="brand" href="index.html"><span class="logo">B</span><span><div class="brand-title">BMX <b>Staking</b></div><div class="brand-sub">CONNECT · STAKE · GROW</div></span></a>
+    <div class="landing-links"><a href="#about">About</a><a href="login.html">Sign In</a><a class="btn btn-primary" href="register.html">Sign Up</a></div>
+  </nav>
+
+  <main class="landing-main" id="about">
+    <section class="intro-copy">
+      <div class="eyebrow">BMX STAKING PLATFORM</div>
+      <h1>Connect. <b>Stake.</b><br>Grow your BMX.</h1>
+      <p class="lead">Welcome to BMX Staking — a clean, professional platform for exploring your BMX portfolio, staking activity and referral network from one simple dashboard.</p>
+      <div class="landing-actions">
+        <a class="btn btn-primary" href="register.html">Create Account →</a>
+        <a class="btn" href="login.html">Sign In</a>
+      </div>
+      <div class="intro-points">
+        <div class="intro-point"><strong>📊 Portfolio</strong><span>Track balance and activity in one place.</span></div>
+        <div class="intro-point"><strong>⚡ Staking</strong><span>Explore the staking interface and reward flow.</span></div>
+        <div class="intro-point"><strong>🤝 Referrals</strong><span>View your referral network and activity.</span></div>
+      </div>
+    </section>
+
+    <aside class="welcome-card">
+      <div class="welcome-logo">B</div>
+      <h2>Welcome to BMX Staking</h2>
+      <p>Start by creating an account or signing in to continue to the BMX dashboard.</p>
+      <div class="auth-buttons">
+        <a class="auth-primary" href="register.html">Sign Up</a>
+        <a class="auth-secondary" href="login.html">Sign In</a>
+      </div>
+      <div class="welcome-note">Preview environment · The current website is a front-end prototype. Balances, rewards, transfers and staking records are simulation locally.</div>
+    </aside>
+  </main>
+
+  <div class="landing-bottom"><div class="landing-disclosure"><strong>Preview disclosure:</strong> This version is for interface testing only. It does not connect to a blockchain, process deposits or withdrawals, or create real custodial accounts.</div></div>
+</div>
+
+<div class="preview-disclosure">
+  <strong>Platform Preview</strong>
+  <span>Balances, rewards and transactions shown in this preview are simulated and have no monetary value.</span>
+</div>
+<style>
+.preview-disclosure{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:9999;
+max-width:min(92vw,760px);padding:10px 16px;border:1px solid rgba(80,190,255,.25);
+border-radius:14px;background:rgba(7,18,36,.88);backdrop-filter:blur(12px);
+box-shadow:0 10px 35px rgba(0,0,0,.25);font:13px/1.4 system-ui,sans-serif;color:#b9c9dc;
+text-align:center}.preview-disclosure strong{color:#67d5ff;margin-right:7px}
+@media(max-width:600px){.preview-disclosure{bottom:10px;padding:9px 12px;font-size:12px}}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  const u = window.BMXAuth && BMXAuth.currentUser();
+  if(!u) return;
+  document.querySelectorAll('a[href="login.html"]').forEach(a=>{a.textContent="Dashboard";a.href="dashboard.html";});
+  document.querySelectorAll('a[href="register.html"]').forEach(a=>{a.textContent="Open Dashboard";a.href="dashboard.html";});
+});
+</script>
+</body>
+</html>
