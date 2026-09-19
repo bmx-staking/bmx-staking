@@ -86,35 +86,41 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const fallbackName = localStorage.getItem("bmx_user_name") || "BMX User";
-  const fallbackEmail = localStorage.getItem("bmx_user_email") || "";
-  const user = window.BMXReferral && BMXReferral.ensureUser(fallbackName, fallbackEmail);
-  if (!user) return;
-  const link = BMXReferral.referralUrl(user.referralCode);
-  document.getElementById("myReferralLink").value = link;
-  document.getElementById("myReferralCode").textContent = user.referralCode;
-  const list = document.getElementById("referralList");
-  const referrals = user.referrals || [];
-  document.getElementById("referralCount").textContent = referrals.length;
-  list.innerHTML = referrals.length ? referrals.map(r =>
-    '<div class="referral-item"><div><strong>' + (r.name || "BMX User") +
-    '</strong><div class="muted">' + new Date(r.joinedAt).toLocaleString() +
-    '</div></div><span class="status-pill">Joined</span></div>'
-  ).join("") : '<div class="empty-state">No referrals yet. Share your link to start building your network.</div>';
+  const user = window.BMXAuth && BMXAuth.currentUser();
+  if (!user) {
+    window.location.href = "login.html";
+  } else {
+    const link = BMXAuth.referralUrl(user.referralCode);
+    const linkInput = document.getElementById("myReferralLink");
+    const codeEl = document.getElementById("myReferralCode");
+    const list = document.getElementById("referralList");
+    const count = document.getElementById("referralCount");
 
-  document.getElementById("copyReferralLink").addEventListener("click", async function () {
-    try {
-      await navigator.clipboard.writeText(link);
-      this.textContent = "Copied";
-      setTimeout(() => this.textContent = "Copy link", 1600);
-    } catch (_) {
-      document.getElementById("myReferralLink").select();
-      document.execCommand("copy");
-      this.textContent = "Copied";
-      setTimeout(() => this.textContent = "Copy link", 1600);
-    }
-  });
-});
+    linkInput.value = link;
+    codeEl.textContent = user.referralCode || "—";
+    const referrals = user.referrals || [];
+    count.textContent = referrals.length;
+    list.innerHTML = referrals.length ? referrals.map(r =>
+      '<div class="referral-item"><div><strong>' + (r.name || "BMX User") +
+      '</strong><div class="muted">' + new Date(r.joinedAt).toLocaleString() +
+      '</div></div><span class="status-pill">Joined</span></div>'
+    ).join("") : '<div class="empty-state">No referrals yet. Share your link to start building your network.</div>';
+
+    document.getElementById("copyReferralLink").addEventListener("click", async function () {
+      try {
+        await navigator.clipboard.writeText(link);
+        this.textContent = "Copied";
+        if (window.BMXSuccess) BMXSuccess("Referral link copied");
+        setTimeout(() => this.textContent = "Copy link", 1600);
+      } catch (_) {
+        linkInput.focus();
+        linkInput.select();
+        document.execCommand("copy");
+        this.textContent = "Copied";
+        setTimeout(() => this.textContent = "Copy link", 1600);
+      }
+    });
+  }
 </script>
 
 <style>
